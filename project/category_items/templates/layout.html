@@ -1,0 +1,49 @@
+{% extends "bootstrap/base.html" %}
+{% block head %}
+    {{ super() }}
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='main.css')}}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<meta name="google-signin-client_id" content="378967825839-dto87c0v0r6q9t5ukakgh760ecujuq6m.apps.googleusercontent.com">
+<script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" async defer>
+</script>
+    <title>Catalog</title>
+{% endblock %}
+
+{% block navbar %}
+    <div class="navbar navbar-default" role="navigation" style="background-color:#022040c9">
+        <div class="container">
+            <div class="navbar-header">
+                <h1><a class="navbar-link" href="{{url_for('home')}}" style="color: #fff;font-weight: bold;text-decoration:none">Catalog App</a></h1>
+            </div>
+            <div class="nav navbar-nav navbar-right" style="padding-top: 13px;">
+              {% if current_user.is_authenticated %}
+                <a href="{{url_for('logout')}}"  class="btn glyphicon glyphicon-log-out" style="background-color:#ef540b;color:white">
+                  LogOut
+                </a>
+              {% else %}
+              <a href="{{url_for('login')}}"  class="btn glyphicon glyphicon-log-in" style="background-color:#ef540b;color:white">
+                Login
+              </a>
+              <a href="{{url_for('register')}}"  class="btn glyphicon glyphicon-user" style="background-color:#ef540b;color:white">
+                Register</a>
+                <a href="{{url_for('google_login')}}"  class="btn glyphicon glyphicon-envelope" style="background-color:#ef540b;color:white">
+                  SignIn/Google</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
+    <div class="container">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="alert alert-{{category}}">
+              {{message}}
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+      {% block page_content %}{% endblock %}
+    </div>
+{% endblock %}

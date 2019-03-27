@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="add_div">
+    <div class="card">
+      <form action="" method="POST">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <!-- <strong>Title</strong> --> {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+      <label for="item_name">Title</label>
+      <input type="text" id="item_name" name="title" value="{{item.title if item  else ''}}">
+
+      <label for="item_description">Description</label>
+      <textarea rows="4" cols="50" id="item_description" name="description">{{item.description if item  else ''}}</textarea>
+
+      <label for="category">Category</label>
+      <select id="category" name="category">
+        {% for category in categories %}
+        {% if item and item.cat_id == category.id %}
+        <option value="{{category.id}}" selected>{{category.name}}</option>
+        {% else %}
+        <option value="{{category.id}}">{{category.name}}</option>
+        {% endif %}
+        {% endfor %}
+      </select>
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
